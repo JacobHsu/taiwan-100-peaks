@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}台灣百岳 - 首頁{% endblock %}
+
+{% block content %}
+<div class="peaks-container">
+    <div class="peaks-sidebar">
+        {% for peak in peaks %}
+        <div class="peak-item" data-peak-id="{{ peak.id }}" data-lat="{{ peak.latitude }}" data-lng="{{ peak.longitude }}">
+            <span class="peak-status">
+                {{ peak.status }}
+            </span>
+            <div class="peak-name">{{ peak.name }}</div>
+            <div class="peak-details">
+                <div>距離: {{ peak.distance }}</div>
+                <div>標高: {{ peak.elevation }}</div>
+                <div class="peak-description">{{ peak.description }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="peaks-map">
+        <div id="map"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // 山峰資料從 Django 傳遞到 JavaScript
+    const peaksData = [
+        {% for peak in peaks %}
+        {
+            id: {{ peak.id }},
+            name: "{{ peak.name }}",
+            lat: {{ peak.latitude }},
+            lng: {{ peak.longitude }},
+            elevation: "{{ peak.elevation }}",
+            status: "{{ peak.status }}",
+            description: "{{ peak.description }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+</script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endblock %}
