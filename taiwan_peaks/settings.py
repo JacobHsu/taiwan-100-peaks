@@ -36,6 +36,12 @@ DEBUG = env('DEBUG', default=True)
 
 ALLOWED_HOSTS = ['*']
 
+# Render deployment settings
+import os
+if 'RENDER' in os.environ:
+    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
+    DEBUG = False
+
 
 # Application definition
 
@@ -52,7 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # Temporarily disabled
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Required for Render deployment
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,6 +101,12 @@ DATABASES = {
         'PORT': env('DB_PORT', default='5432'),
     }
 }
+
+# Render PostgreSQL database configuration
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 
 # Password validation
