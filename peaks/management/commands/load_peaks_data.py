@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from django.contrib.gis.geos import Point
+# Remove PostGIS dependency for Render deployment
+# from django.contrib.gis.geos import Point
 from peaks.models import Peak
 
 class Command(BaseCommand):
@@ -125,12 +126,12 @@ class Command(BaseCommand):
 
         # 建立山峰資料
         for peak_data in peaks_data:
-            location = Point(peak_data['longitude'], peak_data['latitude'])
-            
+            # Use simple latitude/longitude fields instead of PostGIS Point
             peak = Peak.objects.create(
                 name=peak_data['name'],
                 elevation=peak_data['elevation'],
-                location=location,
+                latitude=peak_data['latitude'],
+                longitude=peak_data['longitude'],
                 difficulty=peak_data['difficulty'],
                 distance=peak_data['distance'],
                 duration_days=peak_data['duration_days'],

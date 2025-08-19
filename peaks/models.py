@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.gis.db import models as gis_models
+# Temporarily remove PostGIS dependency for Render deployment
+# from django.contrib.gis.db import models as gis_models
 
 class Peak(models.Model):
     DIFFICULTY_CHOICES = [
@@ -18,7 +19,9 @@ class Peak(models.Model):
     # 基本資訊
     name = models.CharField('百岳名稱', max_length=100, unique=True)
     elevation = models.IntegerField('海拔高度 (公尺)')
-    location = gis_models.PointField('經緯度座標', geography=True)
+    # Use simple decimal fields instead of PostGIS PointField
+    latitude = models.DecimalField('緯度', max_digits=10, decimal_places=7, null=True, blank=True)
+    longitude = models.DecimalField('經度', max_digits=10, decimal_places=7, null=True, blank=True)
     
     # 登山資訊
     difficulty = models.CharField('難度等級', max_length=20, choices=DIFFICULTY_CHOICES)
@@ -46,11 +49,3 @@ class Peak(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.elevation}m)"
-
-    @property
-    def latitude(self):
-        return self.location.y if self.location else None
-
-    @property
-    def longitude(self):
-        return self.location.x if self.location else None

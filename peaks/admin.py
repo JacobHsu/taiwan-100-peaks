@@ -1,9 +1,10 @@
 from django.contrib import admin
-from django.contrib.gis.admin import GeoModelAdmin
+# Remove PostGIS dependency for Render deployment
+# from django.contrib.gis.admin import GeoModelAdmin
 from .models import Peak
 
 @admin.register(Peak)
-class PeakAdmin(GeoModelAdmin):
+class PeakAdmin(admin.ModelAdmin):
     list_display = ['name', 'elevation', 'difficulty', 'status', 'completion_date']
     list_filter = ['difficulty', 'status', 'duration_days']
     search_fields = ['name', 'description']
@@ -12,7 +13,7 @@ class PeakAdmin(GeoModelAdmin):
     
     fieldsets = (
         ('基本資訊', {
-            'fields': ('name', 'elevation', 'location')
+            'fields': ('name', 'elevation', 'latitude', 'longitude')
         }),
         ('登山資訊', {
             'fields': ('difficulty', 'distance', 'duration_days')

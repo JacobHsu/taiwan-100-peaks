@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
+    # 'django.contrib.gis',  # Temporarily disabled for Render deployment
     'peaks',
 ]
 
@@ -106,7 +106,8 @@ DATABASES = {
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+    # Use regular PostgreSQL for Render deployment (PostGIS may not be available)
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
 
 # Password validation
