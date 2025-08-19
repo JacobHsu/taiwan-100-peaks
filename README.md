@@ -45,7 +45,12 @@ docker-compose exec web python manage.py createsuperuser
 **網站首頁：** `http://localhost:3952`
 **管理後台：** `http://localhost:3952/admin`
 
-🎉 **恭喜！你的台灣百岳網站已經啟動成功了！**
+重新啟動容器 
+
+```bash
+docker-compose down  
+docker-compose up 
+```  
 
 ---
 
