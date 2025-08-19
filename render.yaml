@@ -3,6 +3,7 @@ databases:
     databaseName: taiwan_peaks
     user: taiwan_peaks_user
     plan: free
+    postgresMajorVersion: 15
 
 services:
   - type: web
@@ -20,3 +21,5 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+      - key: RENDER
+        value: true

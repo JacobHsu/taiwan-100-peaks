@@ -2,7 +2,11 @@
 # exit on error
 set -o errexit
 
-# Install dependencies
+# Install system dependencies for PostGIS
+apt-get update
+apt-get install -y gdal-bin libgdal-dev
+
+# Install Python dependencies
 pip install -r requirements.txt
 
 # Collect static files
