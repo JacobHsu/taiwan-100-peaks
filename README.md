@@ -17,7 +17,7 @@ docker-compose --version
 
 ### 步驟 2：進入專案資料夾
 ```bash
-cd D:\2-outsourcing\hiking\taiwan-100-peaks
+cd \taiwan-100-peaks
 ```
 
 ### 步驟 3：啟動服務

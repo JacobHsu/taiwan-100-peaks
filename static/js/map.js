@@ -1,28 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化地圖 - 調整為顯示整個台灣
-    const map = L.map('map').setView([23.8, 120.9], 10);
+    const map = L.map('map', {
+        attributionControl: false
+    }).setView([23.8, 120.9], 10);
 
     // 添加地圖圖層 - 使用衛星影像圖層
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-        maxZoom: 18
-    });
-
-    // 添加街道地圖圖層
-    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution: '',
         maxZoom: 18
     });
 
     // 默認使用衛星圖層
     satelliteLayer.addTo(map);
-
-    // 圖層控制
-    const baseLayers = {
-        '衛星影像': satelliteLayer,
-        '街道地圖': streetLayer
-    };
-    L.control.layers(baseLayers).addTo(map);
 
     // 存儲標記的對象
     const markers = {};
